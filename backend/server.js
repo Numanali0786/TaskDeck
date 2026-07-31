@@ -5,7 +5,8 @@ import morgan from "morgan";
 
 import { connectDB } from "./config/db.js";
 import { notFound, errorHandler } from "./middleware/error.middleware.js";
-import authRoutes from "./routes/auth.route.js";
+import authRoutes from "./routes/auth.routes.js";
+import leadRoutes from "./routes/lead.routes.js";
 const app = express();
 
 app.use(
@@ -26,6 +27,7 @@ app.get("/api/health", (req, res) =>
 );
 
 app.use("/api/auth", authRoutes);
+app.use("/api/lead", leadRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
