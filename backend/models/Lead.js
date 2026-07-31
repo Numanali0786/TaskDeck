@@ -53,3 +53,5 @@ const leadSchema = new mongoose.Schema(
 );
 
 export const Lead = mongoose.model("Lead", leadSchema);
+
+// [owner,name,email,phone,company,status,priority,source,value,notes,tags,aiSummary,aiRiskScore,order]

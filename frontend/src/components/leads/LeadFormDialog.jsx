@@ -3,7 +3,11 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Dialog, Button, Field, Input, Select, Textarea } from "../ui";
 import { leadsApi } from "../../lib/services";
-import { LEAD_STAGES, LEAD_PRIORITIES, LEAD_SOURCES } from "../../lib/constants";
+import {
+  LEAD_STAGES,
+  LEAD_PRIORITIES,
+  LEAD_SOURCES,
+} from "../../lib/constants";
 
 /**
  * Create / edit a lead. When `lead` is provided we're editing; otherwise
@@ -53,11 +57,17 @@ export function LeadFormDialog({ open, onClose, lead, onSaved }) {
       open={open}
       onClose={onClose}
       title={editing ? "Edit lead" : "New lead"}
-      description={editing ? "Update this lead's details." : "Add a lead to your pipeline."}
+      description={
+        editing ? "Update this lead's details." : "Add a lead to your pipeline."
+      }
     >
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="grid grid-cols-2 gap-3">
-          <Field label="Name" error={errors.name?.message} className="col-span-2">
+          <Field
+            label="Name"
+            error={errors.name?.message}
+            className="col-span-2"
+          >
             <Input
               placeholder="Contact name"
               {...register("name", { required: "Name is required" })}
@@ -67,13 +77,22 @@ export function LeadFormDialog({ open, onClose, lead, onSaved }) {
             <Input placeholder="Company" {...register("company")} />
           </Field>
           <Field label="Email">
-            <Input type="email" placeholder="email@company.com" {...register("email")} />
+            <Input
+              type="email"
+              placeholder="email@company.com"
+              {...register("email")}
+            />
           </Field>
           <Field label="Phone">
             <Input placeholder="+1 555 0100" {...register("phone")} />
           </Field>
           <Field label="Deal value (USD)">
-            <Input type="number" min="0" placeholder="0" {...register("value")} />
+            <Input
+              type="number"
+              min="0"
+              placeholder="0"
+              {...register("value")}
+            />
           </Field>
           <Field label="Stage">
             <Select {...register("status")}>
@@ -97,7 +116,10 @@ export function LeadFormDialog({ open, onClose, lead, onSaved }) {
             </Select>
           </Field>
           <Field label="Notes" className="col-span-2">
-            <Textarea placeholder="Context, next steps…" {...register("notes")} />
+            <Textarea
+              placeholder="Context, next steps…"
+              {...register("notes")}
+            />
           </Field>
         </div>
 
