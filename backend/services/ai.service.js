@@ -63,3 +63,25 @@ const generateText = async (prompt, temperature = 0.7) => {
     throw new ApiError(502, "AI request failed. Please try again in a moment.");
   }
 };
+
+export const generateLeadSummary = async (lead) => {
+  const prompt = `You are an expert B2B sales analyst for a CRM called TTP CRM.
+  Analyze the following sales lead and produce a concise assessment.
+
+  Lead details:
+  - Name: ${lead.name || "N/A"}
+  - Company: ${lead.company || "N/A"}
+- Email: ${lead.email || "N/A"}
+- Current pipeline stage: ${lead.status || "New"}
+- Potential deal value: $${lead.value || 0}
+- Source: ${lead.source || "Unknown"}
+- Notes: ${lead.notes || "None"}
+
+Return a JSON object with the following exact keys:
+- "summary": a string containing a 2-3 sentence executive summary of the lead
+- "riskScore": an integer representing the risk of losing this deal, from 0 (safe) to 100 (high risk)
+- "suggestedPriority": a string, exactly one of ["Low", "Medium", "High"]
+- "nextBestAction": a string containing one concrete recommended next step`;
+
+  return generateJSON(prompt);
+};

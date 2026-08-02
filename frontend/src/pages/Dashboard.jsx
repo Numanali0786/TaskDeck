@@ -47,7 +47,14 @@ import { useAuth } from "../context/AuthContext";
 import { cn } from "../lib/utils";
 
 /* Donut palette — sky-blue family used for the "Leads by Source" chart. */
-const SOURCE_COLORS = ["#0ea5e9", "#38bdf8", "#0369a1", "#7dd3fc", "#0284c7", "#bae6fd"];
+const SOURCE_COLORS = [
+  "#0ea5e9",
+  "#38bdf8",
+  "#0369a1",
+  "#7dd3fc",
+  "#0284c7",
+  "#bae6fd",
+];
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -58,10 +65,22 @@ export default function Dashboard() {
   const [range, setRange] = useState("monthly");
 
   useEffect(() => {
-    analyticsApi.overview().then(setData).catch(() => setData(false));
-    contactsApi.list().then((res) => setContacts(res.contacts || [])).catch(() => {});
-    leadsApi.list().then((res) => setLeads(res.leads || [])).catch(() => {});
-    tasksApi.list().then((res) => setTasks(res.tasks || [])).catch(() => {});
+    analyticsApi
+      .overview()
+      .then(setData)
+      .catch(() => setData(false));
+    contactsApi
+      .list()
+      .then((res) => setContacts(res.contacts || []))
+      .catch(() => {});
+    leadsApi
+      .list()
+      .then((res) => setLeads(res.leads || []))
+      .catch(() => {});
+    tasksApi
+      .list()
+      .then((res) => setTasks(res.tasks || []))
+      .catch(() => {});
   }, []);
 
   if (data === null) return <DashboardSkeleton />;
@@ -77,7 +96,8 @@ export default function Dashboard() {
       {/* Title row */}
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <h1 className="font-display text-3xl font-extrabold tracking-tight text-ink sm:text-[2.5rem]">
-          Welcome Back, <span className="text-ink-soft">{user?.name?.split(" ")[0]}</span>
+          Welcome Back,{" "}
+          <span className="text-ink-soft">{user?.name?.split(" ")[0]}</span>
         </h1>
         <div className="flex items-center gap-3">
           <div className="hidden items-center gap-2 rounded-full bg-surface px-4 py-2.5 text-sm font-medium text-ink-soft shadow-[var(--shadow-soft)] sm:flex">
@@ -114,7 +134,11 @@ export default function Dashboard() {
 
           {/* Conversion stat */}
           <Card className="p-6">
-            <SectionHeading icon={Target} title="Conversion" subtitle="Win rate" />
+            <SectionHeading
+              icon={Target}
+              title="Conversion"
+              subtitle="Win rate"
+            />
             <div className="mt-4 flex items-end gap-2">
               <p className="font-display text-3xl font-bold text-ink">
                 {stats.conversionRate ?? 0}
@@ -174,7 +198,11 @@ export default function Dashboard() {
         <div className="space-y-5 lg:col-span-3">
           {/* Revenue / balance card */}
           <Card className="p-6">
-            <SectionHeading title="Revenue Goal" subtitle="Closed-won total" to="/pipeline" />
+            <SectionHeading
+              title="Revenue Goal"
+              subtitle="Closed-won total"
+              to="/pipeline"
+            />
             <p className="mt-4 text-center text-sm text-ink-soft">Total Won</p>
             <p className="text-center font-display text-3xl font-bold tracking-tight text-ink">
               {currency(stats.revenueWon)}
@@ -232,20 +260,29 @@ function PipelineByStage({ pipeline, className }) {
                 </span>
                 <span className="font-semibold text-ink">
                   {currency(s.value, { compact: true })}
-                  <span className="ml-1.5 text-xs font-normal text-ink-soft">{pct}%</span>
+                  <span className="ml-1.5 text-xs font-normal text-ink-soft">
+                    {pct}%
+                  </span>
                 </span>
               </div>
               <div className="h-2.5 overflow-hidden rounded-full bg-surface-muted">
                 <div
-                  className={cn("h-full rounded-full transition-all", style.bar)}
-                  style={{ width: `${Math.max((s.value / maxValue) * 100, 2)}%` }}
+                  className={cn(
+                    "h-full rounded-full transition-all",
+                    style.bar,
+                  )}
+                  style={{
+                    width: `${Math.max((s.value / maxValue) * 100, 2)}%`,
+                  }}
                 />
               </div>
             </div>
           );
         })}
         {pipeline.length === 0 && (
-          <p className="py-6 text-center text-sm text-ink-soft">No pipeline data yet.</p>
+          <p className="py-6 text-center text-sm text-ink-soft">
+            No pipeline data yet.
+          </p>
         )}
       </div>
     </Card>
@@ -260,11 +297,18 @@ function LeadsBySource({ leads }) {
     acc[key] = (acc[key] || 0) + 1;
     return acc;
   }, {});
-  const dataset = Object.entries(grouped).map(([name, value]) => ({ name, value }));
+  const dataset = Object.entries(grouped).map(([name, value]) => ({
+    name,
+    value,
+  }));
 
   return (
     <Card className="p-6">
-      <SectionHeading icon={PieIcon} title="Leads by Source" subtitle="Where leads come from" />
+      <SectionHeading
+        icon={PieIcon}
+        title="Leads by Source"
+        subtitle="Where leads come from"
+      />
       {dataset.length === 0 ? (
         <p className="py-10 text-center text-sm text-ink-soft">No leads yet.</p>
       ) : (
@@ -281,24 +325,34 @@ function LeadsBySource({ leads }) {
                   stroke="none"
                 >
                   {dataset.map((_, i) => (
-                    <Cell key={i} fill={SOURCE_COLORS[i % SOURCE_COLORS.length]} />
+                    <Cell
+                      key={i}
+                      fill={SOURCE_COLORS[i % SOURCE_COLORS.length]}
+                    />
                   ))}
                 </Pie>
                 <Tooltip content={<ChartTooltip unit=" leads" />} />
               </PieChart>
             </ResponsiveContainer>
             <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
-              <span className="font-display text-xl font-bold text-ink">{leads.length}</span>
+              <span className="font-display text-xl font-bold text-ink">
+                {leads.length}
+              </span>
               <span className="text-[11px] text-ink-soft">leads</span>
             </div>
           </div>
           <ul className="flex-1 space-y-1.5">
             {dataset.map((d, i) => (
-              <li key={d.name} className="flex items-center justify-between text-sm">
+              <li
+                key={d.name}
+                className="flex items-center justify-between text-sm"
+              >
                 <span className="flex items-center gap-2 text-ink-soft">
                   <span
                     className="h-2.5 w-2.5 rounded-full"
-                    style={{ background: SOURCE_COLORS[i % SOURCE_COLORS.length] }}
+                    style={{
+                      background: SOURCE_COLORS[i % SOURCE_COLORS.length],
+                    }}
                   />
                   {d.name}
                 </span>
@@ -332,7 +386,9 @@ function UpcomingTasks({ tasks }) {
         to="/tasks"
       />
       {upcoming.length === 0 ? (
-        <p className="py-8 text-center text-sm text-ink-soft">You're all caught up 🎉</p>
+        <p className="py-8 text-center text-sm text-ink-soft">
+          You're all caught up 🎉
+        </p>
       ) : (
         <ul className="mt-4 space-y-3">
           {upcoming.map((t) => {
@@ -342,7 +398,9 @@ function UpcomingTasks({ tasks }) {
                 <span
                   className={cn(
                     "mt-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg",
-                    overdue ? "bg-rose-50 text-rose-600" : "bg-brand-50 text-brand-600"
+                    overdue
+                      ? "bg-rose-50 text-rose-600"
+                      : "bg-brand-50 text-brand-600",
                   )}
                 >
                   {overdue ? (
@@ -352,13 +410,22 @@ function UpcomingTasks({ tasks }) {
                   )}
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium text-ink">{t.title}</p>
-                  <p className={cn("text-xs", overdue ? "text-rose-600" : "text-ink-soft")}>
+                  <p className="truncate text-sm font-medium text-ink">
+                    {t.title}
+                  </p>
+                  <p
+                    className={cn(
+                      "text-xs",
+                      overdue ? "text-rose-600" : "text-ink-soft",
+                    )}
+                  >
                     {t.dueDate ? shortDate(t.dueDate) : "No due date"}
                     {t.relatedLead?.name ? ` · ${t.relatedLead.name}` : ""}
                   </p>
                 </div>
-                <Badge className={PRIORITY_STYLES[t.priority]}>{t.priority}</Badge>
+                <Badge className={PRIORITY_STYLES[t.priority]}>
+                  {t.priority}
+                </Badge>
               </li>
             );
           })}
@@ -377,9 +444,16 @@ function TopDeals({ leads }) {
 
   return (
     <Card className="flex flex-col p-6">
-      <SectionHeading icon={Trophy} title="Top Open Deals" subtitle="Biggest active opportunities" to="/leads" />
+      <SectionHeading
+        icon={Trophy}
+        title="Top Open Deals"
+        subtitle="Biggest active opportunities"
+        to="/leads"
+      />
       {deals.length === 0 ? (
-        <p className="py-8 text-center text-sm text-ink-soft">No open deals yet.</p>
+        <p className="py-8 text-center text-sm text-ink-soft">
+          No open deals yet.
+        </p>
       ) : (
         <ul className="mt-4 space-y-2.5">
           {deals.map((l, i) => {
@@ -390,7 +464,9 @@ function TopDeals({ leads }) {
                   {i + 1}
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium text-ink">{l.name}</p>
+                  <p className="truncate text-sm font-medium text-ink">
+                    {l.name}
+                  </p>
                   <p className="flex items-center gap-1 truncate text-xs text-ink-soft">
                     <Building2 className="h-3 w-3" /> {l.company || "—"}
                   </p>
@@ -399,7 +475,13 @@ function TopDeals({ leads }) {
                   <p className="text-sm font-semibold text-ink">
                     {currency(l.value, { compact: true })}
                   </p>
-                  <span className={cn("text-[11px] font-medium", style.badge, "bg-transparent px-0")}>
+                  <span
+                    className={cn(
+                      "text-[11px] font-medium",
+                      style.badge,
+                      "bg-transparent px-0",
+                    )}
+                  >
                     {l.status}
                   </span>
                 </div>
@@ -418,7 +500,8 @@ function EngagementChart({ trend }) {
   const max = Math.max(...counts, 1);
   const maxIndex = counts.indexOf(max);
   const prev = maxIndex > 0 ? counts[maxIndex - 1] : 0;
-  const growth = prev > 0 ? Math.round(((max - prev) / prev) * 1000) / 10 : 17.8;
+  const growth =
+    prev > 0 ? Math.round(((max - prev) / prev) * 1000) / 10 : 17.8;
 
   // Custom label: render a rounded "+x%" bubble above the tallest bar only.
   const renderPeak = (props) => {
@@ -427,9 +510,30 @@ function EngagementChart({ trend }) {
     const cx = x + width / 2;
     return (
       <g>
-        <circle cx={cx} cy={y} r={5} fill="#0369a1" stroke="#fff" strokeWidth={2} />
-        <rect x={cx - 26} y={y - 34} width={52} height={22} rx={11} fill="#0369a1" />
-        <text x={cx} y={y - 19} textAnchor="middle" fontSize="11" fontWeight="700" fill="#fff">
+        <circle
+          cx={cx}
+          cy={y}
+          r={5}
+          fill="#0369a1"
+          stroke="#fff"
+          strokeWidth={2}
+        />
+        <rect
+          x={cx - 26}
+          y={y - 34}
+          width={52}
+          height={22}
+          rx={11}
+          fill="#0369a1"
+        />
+        <text
+          x={cx}
+          y={y - 19}
+          textAnchor="middle"
+          fontSize="11"
+          fontWeight="700"
+          fill="#fff"
+        >
           +{growth}%
         </text>
       </g>
@@ -439,7 +543,11 @@ function EngagementChart({ trend }) {
   return (
     <ResponsiveContainer width="100%" height={280}>
       <BarChart data={trend} barCategoryGap="28%" margin={{ top: 30 }}>
-        <CartesianGrid vertical={false} stroke="#e8eef3" strokeDasharray="4 4" />
+        <CartesianGrid
+          vertical={false}
+          stroke="#e8eef3"
+          strokeDasharray="4 4"
+        />
         <XAxis
           dataKey="month"
           axisLine={false}
@@ -454,8 +562,16 @@ function EngagementChart({ trend }) {
           width={30}
           tickFormatter={(v) => (v >= 1000 ? `${v / 1000}k` : v)}
         />
-        <Tooltip cursor={{ fill: "#f1f5f9" }} content={<ChartTooltip unit=" leads" />} />
-        <Bar dataKey="leads" radius={[14, 14, 14, 14]} maxBarSize={42} label={renderPeak}>
+        <Tooltip
+          cursor={{ fill: "#f1f5f9" }}
+          content={<ChartTooltip unit=" leads" />}
+        />
+        <Bar
+          dataKey="leads"
+          radius={[14, 14, 14, 14]}
+          maxBarSize={42}
+          label={renderPeak}
+        >
           {trend.map((t, i) => (
             <Cell key={i} fill={i === maxIndex ? "#0369a1" : "#bae6fd"} />
           ))}
@@ -468,7 +584,10 @@ function EngagementChart({ trend }) {
 function BalanceChart({ trend }) {
   return (
     <ResponsiveContainer width="100%" height={120}>
-      <AreaChart data={trend} margin={{ top: 14, right: 0, left: 0, bottom: 0 }}>
+      <AreaChart
+        data={trend}
+        margin={{ top: 14, right: 0, left: 0, bottom: 0 }}
+      >
         <defs>
           <linearGradient id="balance" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#0ea5e9" stopOpacity={0.3} />
@@ -476,7 +595,13 @@ function BalanceChart({ trend }) {
           </linearGradient>
         </defs>
         <Tooltip content={<ChartTooltip prefix="$" />} />
-        <Area type="monotone" dataKey="won" stroke="#0284c7" strokeWidth={2.5} fill="url(#balance)" />
+        <Area
+          type="monotone"
+          dataKey="won"
+          stroke="#0284c7"
+          strokeWidth={2.5}
+          fill="url(#balance)"
+        />
       </AreaChart>
     </ResponsiveContainer>
   );
@@ -499,7 +624,11 @@ function ChartTooltip({ active, payload, label, prefix = "", unit = "" }) {
 /* ── Recent activity table (Payment History style) ──────────────────── */
 function ActivityTable({ leads }) {
   if (!leads.length)
-    return <p className="py-10 text-center text-sm text-ink-soft">No recent activity yet.</p>;
+    return (
+      <p className="py-10 text-center text-sm text-ink-soft">
+        No recent activity yet.
+      </p>
+    );
 
   return (
     <div className="overflow-x-auto">
@@ -526,17 +655,23 @@ function ActivityTable({ leads }) {
                     <Avatar name={l.name} size="sm" />
                     <div>
                       <p className="font-medium text-ink">{l.name}</p>
-                      <p className="text-xs text-ink-soft">{l.company || "—"}</p>
+                      <p className="text-xs text-ink-soft">
+                        {l.company || "—"}
+                      </p>
                     </div>
                   </div>
                 </td>
-                <td className="py-3.5 text-ink-soft">{shortDate(l.updatedAt)}</td>
+                <td className="py-3.5 text-ink-soft">
+                  {shortDate(l.updatedAt)}
+                </td>
                 <td className="hidden py-3.5 text-ink-soft sm:table-cell">
                   {timeOf(l.updatedAt)}
                 </td>
                 <td className="py-3.5">
                   <span className="inline-flex items-center gap-1.5 text-sm text-ink">
-                    <span className={cn("h-1.5 w-1.5 rounded-full", style.dot)} />
+                    <span
+                      className={cn("h-1.5 w-1.5 rounded-full", style.dot)}
+                    />
                     {l.status}
                   </span>
                 </td>
@@ -559,7 +694,11 @@ function TopContactsCard({ contacts }) {
 
   return (
     <Card className="p-6">
-      <SectionHeading title="Top Contacts" subtitle="Your key relationships" to="/contacts" />
+      <SectionHeading
+        title="Top Contacts"
+        subtitle="Your key relationships"
+        to="/contacts"
+      />
       {contacts.length === 0 ? (
         <p className="mt-4 text-sm text-ink-soft">No contacts yet.</p>
       ) : (
