@@ -85,3 +85,27 @@ Return a JSON object with the following exact keys:
 
   return generateJSON(prompt);
 };
+
+export const generateEmail = async ({ lead, purpose, tone, sender }) => {
+  const prompt = `You are a senior sales rep writing on behalf of ${
+    sender?.name || "our team"
+  }${sender?.company ? ` at ${sender.company}` : ""}.
+
+  Write a professional sales email.
+Purpose: ${purpose || "follow-up"}
+Desired tone: ${tone || "friendly and professional"}
+
+Recipient (lead) details:
+- Name: ${lead?.name || "There"}
+- Company: ${lead?.company || "N/A"}
+- Pipeline stage: ${lead?.status || "New"}
+- Context / notes: ${lead?.notes || "None"}
+
+Return a JSON object with the following exact keys:
+- "subject": a string with a compelling subject line
+- "body": a string containing the complete email body using line breaks (\\n). Keep it under 180 words. Sign off as ${
+    sender?.name || "The TTP CRM team"
+  }.`;
+
+  return generateJSON(prompt);
+};
