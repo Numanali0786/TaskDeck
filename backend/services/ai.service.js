@@ -48,3 +48,18 @@ const generateJSON = async (prompt) => {
     throw new ApiError(502, "AI request failed. Please try again in a moment.");
   }
 };
+
+const generateText = async (prompt, temperature = 0.7) => {
+  const ai = getClient();
+  try {
+    const response = await ai.chat.completions.create({
+      model: MODEL(),
+      messages: [{ role: "user", content: prompt }],
+      temperature,
+    });
+    return response.choices[0].message.content.trim();
+  } catch (err) {
+    console.error("Groq text error:", err?.message || err);
+    throw new ApiError(502, "AI request failed. Please try again in a moment.");
+  }
+};

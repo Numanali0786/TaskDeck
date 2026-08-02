@@ -35,8 +35,8 @@ export default function Login() {
 
   // Convenience: pre-fill the seeded demo credentials.
   const useDemo = () => {
-    setValue("email", "alex@timetoprogram.com");
-    setValue("password", "Test@1234");
+    setValue("email", "numan123@gmail.com");
+    setValue("password", "Numan123@1234");
   };
 
   return (
@@ -85,7 +85,10 @@ export default function Login() {
 
       <p className="mt-6 text-center text-sm text-ink-soft">
         Don't have an account?{" "}
-        <Link to="/register" className="font-semibold text-brand-700 hover:underline">
+        <Link
+          to="/register"
+          className="font-semibold text-brand-700 hover:underline"
+        >
           Create one
         </Link>
       </p>
