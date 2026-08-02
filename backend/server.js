@@ -10,6 +10,7 @@ import leadRoutes from "./routes/lead.routes.js";
 import contactRoutes from "./routes/contact.routes.js";
 import noteRoutes from "./routes/note.routes.js";
 import taskRoutes from "./routes/task.routes.js";
+
 const app = express();
 
 app.use(
