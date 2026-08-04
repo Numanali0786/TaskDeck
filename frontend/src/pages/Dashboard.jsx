@@ -83,8 +83,9 @@ export default function Dashboard() {
       .catch(() => {});
   }, []);
 
-  if (data === null) return <DashboardSkeleton />;
+  if (data == null) return <DashboardSkeleton />;
   const stats = data?.stats || {};
+  console.log(user, data, contacts, leads, tasks, range);
 
   // A friendly trailing date-range label for the header pill.
   const today = new Date();
