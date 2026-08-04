@@ -20,3 +20,12 @@ const resolveLead = async (req) => {
   if (req.body.lead) return req.body.lead;
   throw new ApiError(400, "Provide a leadId or an inline lead object");
 };
+
+export const aiStatus = asyncHandler(async (req, res) => {
+  res.json({
+    success: true,
+    configured: isAIConfigured(),
+    model: process.env.GROQ_MODEL || "gemini-2.5-flash",
+    // model: process.env.GEMINI_MODEL || "gemini-2.5-flash",
+  });
+});
