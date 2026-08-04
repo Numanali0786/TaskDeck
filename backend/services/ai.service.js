@@ -109,3 +109,20 @@ Return a JSON object with the following exact keys:
 
   return generateJSON(prompt);
 };
+
+export const generateSalesInsights = async (pipelineStats) => {
+  const prompt = `You are a revenue-operations advisor. Given this snapshot of a sales pipeline, identify what is working, what is at risk, and concrete actions to improve conversion.
+
+  Pipeline snapshot (JSON):
+  ${JSON.stringify(pipelineStats, null, 2)}
+  
+  Return a JSON object with the following exact keys:
+  - "headline": a string with a one-sentence summary of pipeline health
+  - "insights": an array of 3-5 specific, data-driven observation strings
+  - "recommendations": an array of 3-5 prioritized, actionable recommendation strings
+  - "healthScore": an integer representing overall pipeline health from 0 to 100`;
+
+  return generateJSON(prompt);
+};
+
+export { generateText };
