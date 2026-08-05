@@ -41,6 +41,7 @@ const generateJSON = async (prompt) => {
       temperature: 0.6,
     });
 
+    console.log("generateJSON", response);
     const content = response.choices[0].message.content.trim();
     return JSON.parse(content);
   } catch (err) {
@@ -57,6 +58,7 @@ const generateText = async (prompt, temperature = 0.7) => {
       messages: [{ role: "user", content: prompt }],
       temperature,
     });
+    console.log("generateText", response);
     return response.choices[0].message.content.trim();
   } catch (err) {
     console.error("Groq text error:", err?.message || err);
@@ -65,7 +67,7 @@ const generateText = async (prompt, temperature = 0.7) => {
 };
 
 export const generateLeadSummary = async (lead) => {
-  const prompt = `You are an expert B2B sales analyst for a CRM called TTP CRM.
+  const prompt = `You are an expert B2B sales analyst for a CRM called APEX AI CRM.
   Analyze the following sales lead and produce a concise assessment.
 
   Lead details:
@@ -104,7 +106,7 @@ Recipient (lead) details:
 Return a JSON object with the following exact keys:
 - "subject": a string with a compelling subject line
 - "body": a string containing the complete email body using line breaks (\\n). Keep it under 180 words. Sign off as ${
-    sender?.name || "The TTP CRM team"
+    sender?.name || "The APEX AI CRM team"
   }.`;
 
   return generateJSON(prompt);

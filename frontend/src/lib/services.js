@@ -51,7 +51,11 @@ export const authApi = {
 
   // register: (data) => api.post("/auth/register", data),
   register: (data) =>
-    reply({ success: true, token: "mock-token", user: { ...mockUser, ...data } }),
+    reply({
+      success: true,
+      token: "mock-token",
+      user: { ...mockUser, ...data },
+    }),
 
   // me: () => api.get("/auth/me"),
   me: () => reply({ success: true, user: mockUser }),
@@ -90,7 +94,7 @@ export const leadsApi = {
   // update: (id, data) => api.put(`/leads/${id}`, data),
   update: (id, data) => {
     leads = leads.map((l) =>
-      l._id === id ? { ...l, ...data, updatedAt: new Date().toISOString() } : l
+      l._id === id ? { ...l, ...data, updatedAt: new Date().toISOString() } : l,
     );
     return reply({ success: true, lead: leads.find((l) => l._id === id) });
   },
@@ -105,7 +109,7 @@ export const leadsApi = {
   reorder: (updates) => {
     updates.forEach((u) => {
       leads = leads.map((l) =>
-        l._id === u.id ? { ...l, status: u.status, order: u.order } : l
+        l._id === u.id ? { ...l, status: u.status, order: u.order } : l,
       );
     });
     return reply({ success: true, message: "Pipeline updated" });
@@ -118,7 +122,8 @@ export const contactsApi = {
   list: () => reply({ success: true, count: contacts.length, contacts }),
 
   // get: (id) => api.get(`/contacts/${id}`),
-  get: (id) => reply({ success: true, contact: contacts.find((c) => c._id === id) }),
+  get: (id) =>
+    reply({ success: true, contact: contacts.find((c) => c._id === id) }),
 
   // create: (data) => api.post("/contacts", data),
   create: (data) => {
@@ -136,7 +141,10 @@ export const contactsApi = {
   // update: (id, data) => api.put(`/contacts/${id}`, data),
   update: (id, data) => {
     contacts = contacts.map((c) => (c._id === id ? { ...c, ...data } : c));
-    return reply({ success: true, contact: contacts.find((c) => c._id === id) });
+    return reply({
+      success: true,
+      contact: contacts.find((c) => c._id === id),
+    });
   },
 
   // remove: (id) => api.delete(`/contacts/${id}`),
@@ -151,7 +159,7 @@ export const notesApi = {
   // list: (params) => api.get("/notes", { params }),
   list: () => {
     const sorted = [...notes].sort(
-      (a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0)
+      (a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0),
     );
     return reply({ success: true, count: sorted.length, notes: sorted });
   },
@@ -202,7 +210,8 @@ export const tasksApi = {
       createdAt: new Date().toISOString(),
       ...data,
       relatedLead: data.relatedLead ? leadLite(data.relatedLead) : null,
-      completedAt: data.status === "Completed" ? new Date().toISOString() : null,
+      completedAt:
+        data.status === "Completed" ? new Date().toISOString() : null,
     };
     tasks = [task, ...tasks];
     return reply({ success: true, task });
@@ -254,7 +263,9 @@ export const analyticsApi = {
 
 function buildOverview() {
   const stages = ["New", "Qualified", "Proposal", "Won", "Lost"];
-  const byStage = Object.fromEntries(stages.map((s) => [s, { count: 0, value: 0 }]));
+  const byStage = Object.fromEntries(
+    stages.map((s) => [s, { count: 0, value: 0 }]),
+  );
   let totalValue = 0;
   let wonValue = 0;
 
@@ -271,12 +282,28 @@ function buildOverview() {
   const conversionRate = closed ? Math.round((won / closed) * 100) : 0;
 
   // Last 6 months trend from lead createdAt.
-  const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const labels = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
   const now = new Date();
   const months = [];
   for (let i = 5; i >= 0; i--) {
     const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    months.push({ key: `${d.getFullYear()}-${d.getMonth()}`, label: labels[d.getMonth()] });
+    months.push({
+      key: `${d.getFullYear()}-${d.getMonth()}`,
+      label: labels[d.getMonth()],
+    });
   }
   const idx = Object.fromEntries(months.map((m, i) => [m.key, i]));
   const trend = months.map((m) => ({ month: m.label, leads: 0, won: 0 }));
@@ -311,7 +338,11 @@ function buildOverview() {
       openTasks: tasks.filter((t) => t.status !== "Completed").length,
       conversionRate,
     },
-    pipeline: stages.map((s) => ({ stage: s, count: byStage[s].count, value: byStage[s].value })),
+    pipeline: stages.map((s) => ({
+      stage: s,
+      count: byStage[s].count,
+      value: byStage[s].value,
+    })),
     trend,
     recentLeads,
   };
