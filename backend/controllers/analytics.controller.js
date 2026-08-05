@@ -3,6 +3,21 @@ import { Contact } from "../models/Contact.js";
 import { Task } from "../models/Task.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
+const lastSixMonths = () => {
+  const months = [];
+  const d = new Date();
+  for (let i = 5; i >= 0; i--) {
+    const temp = new Date(d.getFullYear(), d.getMonth() - i, 1);
+    const key = `${temp.getFullYear()}-${temp.getMonth()}`;
+    const label = temp.toLocaleString("default", {
+      month: "short",
+      year: "2-digit",
+    });
+    months.push({ key, label });
+  }
+  return months;
+};
+
 export const getOverview = asyncHandler(async (req, res) => {
   const owner = req.user._id;
 
