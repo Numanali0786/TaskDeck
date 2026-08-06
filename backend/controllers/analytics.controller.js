@@ -88,5 +88,12 @@ export const getOverview = asyncHandler(async (req, res) => {
       openTasks,
       conversionRate,
     },
+    pipeline: stages.map((s) => ({
+      stage: s,
+      count: byStage[s].count,
+      value: byStage[s].value,
+    })),
+    trend,
+    recentLeads,
   });
 });
