@@ -83,7 +83,7 @@ export const getOverview = asyncHandler(async (req, res) => {
     stats: {
       revenueWon: wonValue,
       pipelineValue: totalValue,
-      totalLeads: leads,
+      totalLeads: leads.length,
       totalContacts: contactCount,
       openTasks,
       conversionRate,
