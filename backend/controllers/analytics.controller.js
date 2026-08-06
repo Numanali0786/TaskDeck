@@ -77,4 +77,16 @@ export const getOverview = asyncHandler(async (req, res) => {
       value: l.value,
       updatedAt: l.updatedAt,
     }));
+
+  res.json({
+    success: true,
+    stats: {
+      revenueWon: wonValue,
+      pipelineValue: totalValue,
+      totalLeads: leads,
+      totalContacts: contactCount,
+      openTasks,
+      conversionRate,
+    },
+  });
 });
