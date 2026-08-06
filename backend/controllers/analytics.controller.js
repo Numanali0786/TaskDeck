@@ -31,6 +31,7 @@ export const getOverview = asyncHandler(async (req, res) => {
   const byStage = Object.fromEntries(
     stages.map((s) => [s, { count: 0, value: 0 }]),
   );
+
   let totalValue = 0;
   let wonValue = 0;
 
