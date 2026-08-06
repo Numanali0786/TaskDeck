@@ -47,4 +47,34 @@ export const getOverview = asyncHandler(async (req, res) => {
   const lost = byStage.Lost.count;
   const closed = won + lost;
   const conversionRate = closed ? Math.round((won / closed) * 100) : 0;
+
+  const months = lastSixMonths();
+  const trend = months.map(({ key, label }) => ({
+    month: label,
+    leads: 0,
+    won: 0,
+  }));
+  const indexByKey = Object.fromEntries(months.map((m, i) => [m.key, i]));
+
+  for (const l of leads) {
+    const d = new Date(l.createdAt);
+    const key = `${d.getFullYear()}-${d.getMonth()}`;
+    const idx = indexByKey[key];
+    if (idx !== undefined) {
+      trend[idx].leads += 1;
+      if (l.status === "Won") trend[idx].won += l.value || 0;
+    }
+  }
+
+  const recentLeads = [...leads]
+    .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+    .slice(0, 6)
+    .map((l) => ({
+      id: l._id,
+      name: l.name,
+      company: l.company,
+      status: l.status,
+      value: l.value,
+      updatedAt: l.updatedAt,
+    }));
 });
