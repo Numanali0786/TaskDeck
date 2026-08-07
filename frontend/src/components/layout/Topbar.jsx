@@ -9,7 +9,6 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-/* Sticky top navbar: mobile menu toggle, global search, notifications, profile. */
 export function Topbar({ onMenuClick }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -24,7 +23,7 @@ export function Topbar({ onMenuClick }) {
         <Menu className="h-5 w-5" />
       </button>
 
-      {/* Search */}
+      {}
       <div className="relative flex-1 max-w-md">
         <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-soft" />
         <input

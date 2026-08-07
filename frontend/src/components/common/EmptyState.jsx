@@ -1,6 +1,5 @@
 import { Inbox } from "lucide-react";
 
-/** Friendly empty-state placeholder with optional action. */
 export function EmptyState({ icon: Icon = Inbox, title, description, action }) {
   return (
     <div className="flex flex-col items-center justify-center px-6 py-16 text-center">

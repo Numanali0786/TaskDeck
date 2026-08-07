@@ -57,7 +57,9 @@ function useFlip(dep) {
 
     // Measure all new positions first, before applying any transforms.
     const nextRects = new Map();
-    nodes.forEach((n) => nextRects.set(n.dataset.flipId, n.getBoundingClientRect()));
+    nodes.forEach((n) =>
+      nextRects.set(n.dataset.flipId, n.getBoundingClientRect()),
+    );
 
     const reduce =
       typeof window !== "undefined" &&
@@ -76,7 +78,7 @@ function useFlip(dep) {
               { transform: `translate(${dx}px, ${dy}px)` },
               { transform: "translate(0px, 0px)" },
             ],
-            { duration: 350, easing: "cubic-bezier(0.22, 1, 0.36, 1)" }
+            { duration: 350, easing: "cubic-bezier(0.22, 1, 0.36, 1)" },
           );
         }
       });
@@ -100,7 +102,7 @@ export default function Contacts() {
   const [view, setView] = useState("grid"); // "grid" | "table"
 
   const [formOpen, setFormOpen] = useState(false);
-  const [editing, setEditing] = useState(null);   // contact being edited
+  const [editing, setEditing] = useState(null); // contact being edited
   const [selected, setSelected] = useState(null); // contact open in drawer
   const [toDelete, setToDelete] = useState(null); // contact pending deletion
   const [deleting, setDeleting] = useState(false);
@@ -131,7 +133,7 @@ export default function Contacts() {
     const c = { All: contacts?.length || 0 };
     allTags.forEach((t) => {
       c[t] = (contacts || []).filter((contact) =>
-        (contact.tags || []).includes(t)
+        (contact.tags || []).includes(t),
       ).length;
     });
     return c;
@@ -141,9 +143,15 @@ export default function Contacts() {
   const kpis = useMemo(() => {
     const list = contacts || [];
     const favorites = list.filter((c) => c.favorite).length;
-    const uniqueCompanies = new Set(list.map((c) => c.company).filter(Boolean)).size;
+    const uniqueCompanies = new Set(list.map((c) => c.company).filter(Boolean))
+      .size;
     const tagged = list.filter((c) => (c.tags || []).length > 0).length;
-    return { total: list.length, favorites, companies: uniqueCompanies, tagged };
+    return {
+      total: list.length,
+      favorites,
+      companies: uniqueCompanies,
+      tagged,
+    };
   }, [contacts]);
 
   // Client-side filtering: search by name/email/company and by tag
@@ -166,8 +174,9 @@ export default function Contacts() {
   // Favorites float to the top; everything else keeps its relative order
   // (Array.prototype.sort is stable).
   const ordered = useMemo(
-    () => [...filtered].sort((a, b) => (b.favorite ? 1 : 0) - (a.favorite ? 1 : 0)),
-    [filtered]
+    () =>
+      [...filtered].sort((a, b) => (b.favorite ? 1 : 0) - (a.favorite ? 1 : 0)),
+    [filtered],
   );
 
   const filtersActive = filters.search || filters.tag;
@@ -200,7 +209,9 @@ export default function Contacts() {
     setFavLoading((prev) => ({ ...prev, [contact._id]: true }));
     // Flip the star immediately in local state.
     setContacts((prev) =>
-      (prev || []).map((c) => (c._id === contact._id ? { ...c, favorite: next } : c))
+      (prev || []).map((c) =>
+        c._id === contact._id ? { ...c, favorite: next } : c,
+      ),
     );
     try {
       await contactsApi.update(contact._id, { favorite: next });
@@ -208,8 +219,8 @@ export default function Contacts() {
       // Revert on failure.
       setContacts((prev) =>
         (prev || []).map((c) =>
-          c._id === contact._id ? { ...c, favorite: !next } : c
-        )
+          c._id === contact._id ? { ...c, favorite: !next } : c,
+        ),
       );
       toast.error(err?.message || "Could not update favorite");
     } finally {
@@ -318,8 +329,8 @@ export default function Contacts() {
               </button>
             )}
             <span className="text-sm text-ink-soft">
-              <span className="font-semibold text-ink">{filtered.length}</span> of{" "}
-              {contacts?.length ?? 0}
+              <span className="font-semibold text-ink">{filtered.length}</span>{" "}
+              of {contacts?.length ?? 0}
             </span>
             <ViewToggle view={view} onChange={setView} />
           </div>
@@ -350,7 +361,10 @@ export default function Contacts() {
         />
       ) : view === "grid" ? (
         /* ── Card grid view ── */
-        <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div
+          ref={gridRef}
+          className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4"
+        >
           {ordered.map((contact) => (
             <ContactCard
               key={contact._id}
@@ -440,7 +454,7 @@ function StatTile({ icon: Icon, label, value, tint }) {
         <div
           className={cn(
             "flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl",
-            tint
+            tint,
           )}
         >
           <Icon className="h-5 w-5" />
@@ -465,14 +479,14 @@ function TagChip({ label, count, active, onClick }) {
         "inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-sm font-medium transition",
         active
           ? "border-transparent bg-brand-600 text-white shadow-sm"
-          : "border-line bg-surface text-ink-soft hover:text-ink hover:bg-surface-muted"
+          : "border-line bg-surface text-ink-soft hover:text-ink hover:bg-surface-muted",
       )}
     >
       {label}
       <span
         className={cn(
           "rounded-full px-1.5 text-xs font-semibold",
-          active ? "bg-white/20 text-white" : "bg-surface-muted text-ink-soft"
+          active ? "bg-white/20 text-white" : "bg-surface-muted text-ink-soft",
         )}
       >
         {count}
@@ -501,7 +515,7 @@ function ViewToggle({ view, onChange }) {
             "flex h-8 w-8 items-center justify-center rounded-full transition",
             view === value
               ? "bg-surface text-ink shadow-sm"
-              : "text-ink-soft hover:text-ink"
+              : "text-ink-soft hover:text-ink",
           )}
         >
           <Icon className="h-4 w-4" />
@@ -540,7 +554,7 @@ function ContactCard({
         <Star
           className={cn(
             "h-4 w-4 transition",
-            contact.favorite ? "fill-amber-400 text-amber-400" : ""
+            contact.favorite ? "fill-amber-400 text-amber-400" : "",
           )}
         />
       </button>
@@ -671,7 +685,7 @@ function ContactTableRow({
               +{contact.tags.length - 2}
             </Badge>
           )}
-          {!(contact.tags?.length) && (
+          {!contact.tags?.length && (
             <span className="text-xs text-ink-soft/50">—</span>
           )}
         </div>
@@ -704,13 +718,15 @@ function ContactTableRow({
           <button
             onClick={(e) => onToggleFavorite(e, contact)}
             disabled={favLoading}
-            aria-label={contact.favorite ? "Unmark favorite" : "Mark as favorite"}
+            aria-label={
+              contact.favorite ? "Unmark favorite" : "Mark as favorite"
+            }
             className="rounded-lg p-1.5 text-ink-soft/40 transition hover:text-amber-400"
           >
             <Star
               className={cn(
                 "h-4 w-4 transition",
-                contact.favorite ? "fill-amber-400 text-amber-400" : ""
+                contact.favorite ? "fill-amber-400 text-amber-400" : "",
               )}
             />
           </button>
@@ -894,7 +910,7 @@ function ContactFormDialog({ open, contact, onClose, onSaved }) {
               tags: "",
               notes: "",
               favorite: false,
-            }
+            },
       );
     }
   }, [open, contact, reset]);

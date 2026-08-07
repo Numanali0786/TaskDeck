@@ -60,19 +60,44 @@ const PRIORITY_BAR = {
 
 // ─── Group definitions (in display order) ────────────────────────────────────
 const GROUPS = [
-  { key: "overdue",   label: "Overdue",      labelClass: "text-rose-700",   countClass: "bg-rose-50 text-rose-700" },
-  { key: "today",     label: "Due today",    labelClass: "text-amber-700",  countClass: "bg-amber-50 text-amber-700" },
-  { key: "upcoming",  label: "Upcoming",     labelClass: "text-ink",        countClass: "bg-surface-muted text-ink-soft" },
-  { key: "nodate",    label: "No due date",  labelClass: "text-ink-soft",   countClass: "bg-surface-muted text-ink-soft" },
-  { key: "completed", label: "Completed",    labelClass: "text-brand-700",  countClass: "bg-brand-50 text-brand-700" },
+  {
+    key: "overdue",
+    label: "Overdue",
+    labelClass: "text-rose-700",
+    countClass: "bg-rose-50 text-rose-700",
+  },
+  {
+    key: "today",
+    label: "Due today",
+    labelClass: "text-amber-700",
+    countClass: "bg-amber-50 text-amber-700",
+  },
+  {
+    key: "upcoming",
+    label: "Upcoming",
+    labelClass: "text-ink",
+    countClass: "bg-surface-muted text-ink-soft",
+  },
+  {
+    key: "nodate",
+    label: "No due date",
+    labelClass: "text-ink-soft",
+    countClass: "bg-surface-muted text-ink-soft",
+  },
+  {
+    key: "completed",
+    label: "Completed",
+    labelClass: "text-brand-700",
+    countClass: "bg-brand-50 text-brand-700",
+  },
 ];
 
 // ─── Tab definitions ──────────────────────────────────────────────────────────
 const STATUS_TABS = [
-  { value: "all",         label: "All" },
-  { value: "Pending",     label: "Pending" },
+  { value: "all", label: "All" },
+  { value: "Pending", label: "Pending" },
   { value: "In Progress", label: "In Progress" },
-  { value: "Completed",   label: "Completed" },
+  { value: "Completed", label: "Completed" },
 ];
 
 // ─── Helper: is a task overdue (has past dueDate, not completed)? ─────────────
@@ -109,28 +134,32 @@ function TaskFormDialog({ open, onClose, task, leads, onSaved }) {
       reset(
         task
           ? {
-              title:       task.title ?? "",
+              title: task.title ?? "",
               description: task.description ?? "",
-              dueDate:     dateInputValue(task.dueDate),
-              status:      task.status ?? "Pending",
-              priority:    task.priority ?? "Medium",
+              dueDate: dateInputValue(task.dueDate),
+              status: task.status ?? "Pending",
+              priority: task.priority ?? "Medium",
               relatedLead: task.relatedLead?._id ?? "",
             }
           : {
-              title: "", description: "", dueDate: "",
-              status: "Pending", priority: "Medium", relatedLead: "",
-            }
+              title: "",
+              description: "",
+              dueDate: "",
+              status: "Pending",
+              priority: "Medium",
+              relatedLead: "",
+            },
       );
     }
   }, [open, task, reset]);
 
   const onSubmit = async (values) => {
     const payload = {
-      title:       values.title.trim(),
+      title: values.title.trim(),
       description: values.description?.trim() || undefined,
-      dueDate:     values.dueDate || undefined,
-      status:      values.status,
-      priority:    values.priority,
+      dueDate: values.dueDate || undefined,
+      status: values.status,
+      priority: values.priority,
       relatedLead: values.relatedLead || null,
     };
     try {
@@ -153,7 +182,11 @@ function TaskFormDialog({ open, onClose, task, leads, onSaved }) {
       open={open}
       onClose={onClose}
       title={isEdit ? "Edit task" : "New task"}
-      description={isEdit ? "Update the details below." : "Fill in the details to create a task."}
+      description={
+        isEdit
+          ? "Update the details below."
+          : "Fill in the details to create a task."
+      }
     >
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Title */}
@@ -166,7 +199,11 @@ function TaskFormDialog({ open, onClose, task, leads, onSaved }) {
 
         {/* Description */}
         <Field label="Description">
-          <Textarea rows={3} placeholder="Optional notes…" {...register("description")} />
+          <Textarea
+            rows={3}
+            placeholder="Optional notes…"
+            {...register("description")}
+          />
         </Field>
 
         {/* Due date + Priority */}
@@ -177,7 +214,9 @@ function TaskFormDialog({ open, onClose, task, leads, onSaved }) {
           <Field label="Priority">
             <Select {...register("priority")}>
               {TASK_PRIORITIES.map((p) => (
-                <option key={p} value={p}>{p}</option>
+                <option key={p} value={p}>
+                  {p}
+                </option>
               ))}
             </Select>
           </Field>
@@ -187,7 +226,9 @@ function TaskFormDialog({ open, onClose, task, leads, onSaved }) {
         <Field label="Status">
           <Select {...register("status")}>
             {TASK_STATUSES.map((s) => (
-              <option key={s} value={s}>{s}</option>
+              <option key={s} value={s}>
+                {s}
+              </option>
             ))}
           </Select>
         </Field>
@@ -198,7 +239,8 @@ function TaskFormDialog({ open, onClose, task, leads, onSaved }) {
             <option value="">No linked lead</option>
             {leads.map((l) => (
               <option key={l._id} value={l._id}>
-                {l.name}{l.company ? ` — ${l.company}` : ""}
+                {l.name}
+                {l.company ? ` — ${l.company}` : ""}
               </option>
             ))}
           </Select>
@@ -206,7 +248,12 @@ function TaskFormDialog({ open, onClose, task, leads, onSaved }) {
 
         {/* Actions */}
         <div className="flex gap-3 pt-1">
-          <Button type="button" variant="outline" className="flex-1" onClick={onClose}>
+          <Button
+            type="button"
+            variant="outline"
+            className="flex-1"
+            onClick={onClose}
+          >
             Cancel
           </Button>
           <Button type="submit" className="flex-1" loading={isSubmitting}>
@@ -220,8 +267,8 @@ function TaskFormDialog({ open, onClose, task, leads, onSaved }) {
 
 // ─── Single task row (module-level component) ─────────────────────────────────
 function TaskRow({ task, onToggle, onEdit, onDelete }) {
-  const done    = task.status === "Completed";
-  const inProg  = task.status === "In Progress";
+  const done = task.status === "Completed";
+  const inProg = task.status === "In Progress";
   const overdue = isOverdue(task);
   const dueToday = task.dueDate ? isToday(new Date(task.dueDate)) : false;
 
@@ -232,7 +279,7 @@ function TaskRow({ task, onToggle, onEdit, onDelete }) {
         aria-hidden
         className={cn(
           "absolute left-0 top-3 bottom-3 w-[3px] rounded-full",
-          PRIORITY_BAR[task.priority] ?? "bg-slate-300"
+          PRIORITY_BAR[task.priority] ?? "bg-slate-300",
         )}
       />
 
@@ -245,8 +292,8 @@ function TaskRow({ task, onToggle, onEdit, onDelete }) {
           done
             ? "text-brand-600 hover:text-brand-400"
             : inProg
-            ? "text-sky-500 hover:text-brand-500"
-            : "text-ink-soft hover:text-brand-500"
+              ? "text-sky-500 hover:text-brand-500"
+              : "text-ink-soft hover:text-brand-500",
         )}
       >
         {done ? (
@@ -264,7 +311,7 @@ function TaskRow({ task, onToggle, onEdit, onDelete }) {
         <p
           className={cn(
             "text-sm font-medium leading-snug",
-            done ? "line-through text-ink-soft" : "text-ink"
+            done ? "line-through text-ink-soft" : "text-ink",
           )}
         >
           {task.title}
@@ -272,7 +319,9 @@ function TaskRow({ task, onToggle, onEdit, onDelete }) {
 
         {/* Description */}
         {task.description && (
-          <p className="mt-0.5 truncate text-xs text-ink-soft">{task.description}</p>
+          <p className="mt-0.5 truncate text-xs text-ink-soft">
+            {task.description}
+          </p>
         )}
 
         {/* Meta chips */}
@@ -285,8 +334,8 @@ function TaskRow({ task, onToggle, onEdit, onDelete }) {
                 overdue
                   ? "bg-rose-50 text-rose-700"
                   : dueToday
-                  ? "bg-amber-50 text-amber-700"
-                  : "bg-surface-muted text-ink-soft"
+                    ? "bg-amber-50 text-amber-700"
+                    : "bg-surface-muted text-ink-soft",
               )}
             >
               {overdue ? (
@@ -294,7 +343,11 @@ function TaskRow({ task, onToggle, onEdit, onDelete }) {
               ) : (
                 <Clock className="h-3 w-3" />
               )}
-              {overdue ? `Overdue · ${shortDate(task.dueDate)}` : dueToday ? `Today · ${shortDate(task.dueDate)}` : shortDate(task.dueDate)}
+              {overdue
+                ? `Overdue · ${shortDate(task.dueDate)}`
+                : dueToday
+                  ? `Today · ${shortDate(task.dueDate)}`
+                  : shortDate(task.dueDate)}
             </span>
           )}
 
@@ -343,10 +396,20 @@ function TaskRow({ task, onToggle, onEdit, onDelete }) {
 function GroupHeader({ label, count, labelClass, countClass }) {
   return (
     <div className="flex items-center gap-2 border-b border-line bg-surface-muted/30 px-5 py-2">
-      <span className={cn("text-xs font-semibold uppercase tracking-wide", labelClass)}>
+      <span
+        className={cn(
+          "text-xs font-semibold uppercase tracking-wide",
+          labelClass,
+        )}
+      >
         {label}
       </span>
-      <span className={cn("rounded-full px-2 py-0.5 text-xs font-semibold", countClass)}>
+      <span
+        className={cn(
+          "rounded-full px-2 py-0.5 text-xs font-semibold",
+          countClass,
+        )}
+      >
         {count}
       </span>
     </div>
@@ -392,21 +455,27 @@ export default function Tasks() {
   // ── Data loading ─────────────────────────────────────────────────────────
   const load = () => {
     setTasks(null);
-    tasksApi.list().then((res) => setTasks(res.tasks)).catch(() => setTasks([]));
+    tasksApi
+      .list()
+      .then((res) => setTasks(res.tasks))
+      .catch(() => setTasks([]));
   };
 
   useEffect(() => {
     load();
-    leadsApi.list().then((res) => setLeads(res.leads)).catch(() => {});
+    leadsApi
+      .list()
+      .then((res) => setLeads(res.leads))
+      .catch(() => {});
   }, []);
 
   // ── KPI counts ───────────────────────────────────────────────────────────
   const stats = useMemo(() => {
     if (!tasks) return { total: 0, pending: 0, overdue: 0, completed: 0 };
     return {
-      total:     tasks.length,
-      pending:   tasks.filter((t) => t.status === "Pending").length,
-      overdue:   tasks.filter(isOverdue).length,
+      total: tasks.length,
+      pending: tasks.filter((t) => t.status === "Pending").length,
+      overdue: tasks.filter(isOverdue).length,
       completed: tasks.filter((t) => t.status === "Completed").length,
     };
   }, [tasks]);
@@ -474,7 +543,10 @@ export default function Tasks() {
   return (
     <div className="space-y-6">
       {/* Page header */}
-      <PageHeader title="Follow-ups" subtitle="Stay on top of every commitment.">
+      <PageHeader
+        title="Follow-ups"
+        subtitle="Stay on top of every commitment."
+      >
         <Button onClick={openNew}>
           <Plus className="h-4 w-4" /> Add task
         </Button>
@@ -482,10 +554,19 @@ export default function Tasks() {
 
       {/* KPI stat cards */}
       <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
-        <StatCard label="Total tasks"  value={stats.total}     icon={CalendarCheck} />
-        <StatCard label="Pending"      value={stats.pending}   icon={Circle} />
-        <StatCard label="Overdue"      value={stats.overdue}   icon={AlertTriangle} />
-        <StatCard label="Completed"    value={stats.completed} icon={CheckCircle2} accent />
+        <StatCard
+          label="Total tasks"
+          value={stats.total}
+          icon={CalendarCheck}
+        />
+        <StatCard label="Pending" value={stats.pending} icon={Circle} />
+        <StatCard label="Overdue" value={stats.overdue} icon={AlertTriangle} />
+        <StatCard
+          label="Completed"
+          value={stats.completed}
+          icon={CheckCircle2}
+          accent
+        />
       </div>
 
       {/* Completion progress bar */}

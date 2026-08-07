@@ -44,7 +44,6 @@ import {
 } from "../lib/constants";
 import { cn } from "../lib/utils";
 import { toast } from "sonner";
-// [owner,name,email,phone,company,status,priority,source,value,notes,tags,aiSummary,aiRiskScore,order]
 export default function Leads() {
   const [leads, setLeads] = useState(null);
   const [filters, setFilters] = useState({
@@ -55,12 +54,12 @@ export default function Leads() {
   });
   const [sort, setSort] = useState({ key: "updatedAt", dir: "desc" });
   const [selected, setSelected] = useState(() => new Set());
-  const [view, setView] = useState("table"); // "table" | "grid"
+  const [view, setView] = useState("table");
 
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState(null);
   const [drawerLead, setDrawerLead] = useState(null);
-  const [toDelete, setToDelete] = useState(null); // single lead
+  const [toDelete, setToDelete] = useState(null);
   const [bulkOpen, setBulkOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
@@ -74,9 +73,6 @@ export default function Leads() {
   };
   useEffect(load, []);
 
-  /* ── Derived data ─────────────────────────────────────────────────── */
-  // Counts per stage drive the quick-filter chips (independent of the active
-  // stage filter so the numbers stay stable).
   const stageCounts = useMemo(() => {
     const c = { All: leads?.length || 0 };
     LEAD_STAGES.forEach((s) => (c[s] = 0));
@@ -143,7 +139,6 @@ export default function Leads() {
   const filtersActive =
     filters.status || filters.priority || filters.source || filters.search;
 
-  /* ── Handlers ─────────────────────────────────────────────────────── */
   const toggleSort = (key) =>
     setSort((s) =>
       s.key === key
@@ -204,8 +199,6 @@ export default function Leads() {
     }
   };
 
-  /* Export to CSV. If rows are checked, export just those; otherwise export
-     the current filtered + sorted view. */
   const exportCSV = () => {
     const rows =
       selected.size > 0 ? sorted.filter((l) => selected.has(l._id)) : sorted;
@@ -225,7 +218,6 @@ export default function Leads() {
       "Created",
       "Updated",
     ];
-    // Escape values containing commas, quotes or newlines per RFC 4180.
     const esc = (v) => {
       const s = String(v ?? "");
       return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
@@ -277,7 +269,7 @@ export default function Leads() {
         </Button>
       </PageHeader>
 
-      {/* KPI strip */}
+      {}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatTile
           icon={Users}
@@ -305,7 +297,7 @@ export default function Leads() {
         />
       </div>
 
-      {/* Toolbar */}
+      {}
       <Card className="space-y-4 p-4">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
           <div className="relative flex-1">
@@ -335,7 +327,7 @@ export default function Leads() {
           </div>
         </div>
 
-        {/* Stage quick-filter chips */}
+        {}
         <div className="flex flex-wrap items-center gap-2">
           <StageChip
             label="All"
@@ -379,7 +371,7 @@ export default function Leads() {
         </div>
       </Card>
 
-      {/* Results — table or card grid */}
+      {}
       {leads === null ? (
         <Card>
           <Spinner />
@@ -540,7 +532,7 @@ export default function Leads() {
         </Card>
       )}
 
-      {/* Floating bulk action bar */}
+      {}
       {selected.size > 0 && (
         <div className="fixed bottom-6 left-1/2 z-40 flex -translate-x-1/2 items-center gap-3 rounded-full border border-line bg-surface px-3 py-2 shadow-[var(--shadow-pop)] animate-fade-up">
           <span className="pl-2 text-sm font-medium text-ink">
@@ -558,7 +550,7 @@ export default function Leads() {
         </div>
       )}
 
-      {/* Dialogs / drawer */}
+      {}
       <LeadFormDialog
         open={formOpen}
         onClose={() => setFormOpen(false)}
@@ -592,7 +584,6 @@ export default function Leads() {
   );
 }
 
-/* ── Table / grid view toggle ───────────────────────────────────────── */
 function ViewToggle({ view, onChange }) {
   const options = [
     { value: "table", icon: Table2, label: "Table view" },
@@ -620,7 +611,6 @@ function ViewToggle({ view, onChange }) {
   );
 }
 
-/* ── Card used in the grid view ─────────────────────────────────────── */
 function LeadGridCard({ lead, selected, onToggle, onOpen, onEdit, onDelete }) {
   const stage = STAGE_STYLES[lead.status] || STAGE_STYLES.New;
   return (
@@ -696,8 +686,6 @@ function LeadGridCard({ lead, selected, onToggle, onOpen, onEdit, onDelete }) {
     </div>
   );
 }
-
-/* ── Small building blocks ──────────────────────────────────────────── */
 
 function StatTile({ icon: Icon, label, value, tint }) {
   return (

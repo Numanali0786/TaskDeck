@@ -1,4 +1,3 @@
-/** Consistent page title + subtitle + optional right-aligned actions. */
 export function PageHeader({ title, subtitle, children }) {
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

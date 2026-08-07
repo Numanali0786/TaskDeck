@@ -8,7 +8,6 @@ export function Skeleton({ className }) {
   );
 }
 
-/** Centered spinner for full-section loading states. */
 export function Spinner({ className }) {
   return (
     <div className={cn("flex items-center justify-center p-10", className)}>

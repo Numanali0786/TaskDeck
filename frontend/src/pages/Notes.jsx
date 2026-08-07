@@ -38,7 +38,12 @@ function StatTile({ icon: Icon, label, value, tint }) {
   return (
     <Card className="p-4">
       <div className="flex items-center gap-3">
-        <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl", tint)}>
+        <div
+          className={cn(
+            "flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl",
+            tint,
+          )}
+        >
           <Icon className="h-5 w-5" />
         </div>
         <div className="min-w-0">
@@ -59,14 +64,14 @@ function FilterChip({ label, count, active, onClick }) {
         "inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-sm font-medium transition",
         active
           ? "border-transparent bg-brand-600 text-white shadow-sm"
-          : "border-line bg-surface text-ink-soft hover:bg-surface-muted hover:text-ink"
+          : "border-line bg-surface text-ink-soft hover:bg-surface-muted hover:text-ink",
       )}
     >
       {label}
       <span
         className={cn(
           "rounded-full px-1.5 text-xs font-semibold",
-          active ? "bg-white/20 text-white" : "bg-surface-muted text-ink-soft"
+          active ? "bg-white/20 text-white" : "bg-surface-muted text-ink-soft",
         )}
       >
         {count}
@@ -85,27 +90,27 @@ function NoteCard({ note, onEdit, onDelete, onTogglePin }) {
       className={cn(
         "break-inside-avoid relative flex flex-col gap-3 overflow-hidden rounded-2xl bg-surface p-5",
         "border border-line shadow-(--shadow-card) transition hover:shadow-(--shadow-pop)",
-        note.pinned && "ring-1 ring-brand-200"
+        note.pinned && "ring-1 ring-brand-200",
       )}
     >
-      {/* Pinned accent strip along the top */}
+      {}
       {note.pinned && (
         <div className="pointer-events-none absolute inset-x-0 top-0 h-1 rounded-t-2xl bg-linear-to-r from-brand-400 to-brand-600" />
       )}
 
-      {/* Pinned icon badge */}
+      {}
       {note.pinned && (
         <span className="absolute right-4 top-3 flex h-6 w-6 items-center justify-center rounded-full bg-brand-50 text-brand-500">
           <Pin className="h-3.5 w-3.5" aria-label="Pinned" />
         </span>
       )}
 
-      {/* Note content */}
+      {}
       <p className="whitespace-pre-wrap text-sm leading-relaxed text-ink pr-6">
         {note.content}
       </p>
 
-      {/* Footer: linked chip + timestamp + actions */}
+      {}
       <div className="flex items-center justify-between gap-2 pt-1">
         <div className="flex min-w-0 flex-wrap items-center gap-2">
           {entity && (
@@ -114,10 +119,12 @@ function NoteCard({ note, onEdit, onDelete, onTogglePin }) {
               <span className="truncate">{entity.name}</span>
             </Badge>
           )}
-          <span className="text-xs text-ink-soft">{relative(note.createdAt)}</span>
+          <span className="text-xs text-ink-soft">
+            {relative(note.createdAt)}
+          </span>
         </div>
 
-        {/* Overflow menu */}
+        {}
         <div onClick={(e) => e.stopPropagation()} className="shrink-0">
           <Dropdown
             trigger={
@@ -203,11 +210,16 @@ function NoteFormDialog({ open, onClose, note, leads, onSaved }) {
       onClose={onClose}
       title={isEditing ? "Edit note" : "New note"}
       description={
-        isEditing ? "Update your note below." : "Add a note linked to a lead or contact."
+        isEditing
+          ? "Update your note below."
+          : "Add a note linked to a lead or contact."
       }
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 mt-2">
-        {/* Content */}
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-4 mt-2"
+      >
+        {}
         <Field label="Note" error={errors.content?.message}>
           <Textarea
             rows={6}
@@ -216,35 +228,47 @@ function NoteFormDialog({ open, onClose, note, leads, onSaved }) {
           />
         </Field>
 
-        {/* Lead picker */}
+        {}
         <Field label="Link to lead">
           <Select {...register("lead")}>
             <option value="">No linked lead</option>
             {leads.map((l) => (
               <option key={l._id} value={l._id}>
-                {l.name}{l.company ? ` — ${l.company}` : ""}
+                {l.name}
+                {l.company ? ` — ${l.company}` : ""}
               </option>
             ))}
           </Select>
         </Field>
 
-        {/* Pinned pill toggle */}
+        {}
         <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-line bg-surface-muted/40 px-4 py-3 transition hover:bg-surface-muted/70">
           <div className="relative flex-shrink-0">
-            <input type="checkbox" className="peer sr-only" {...register("pinned")} />
-            {/* Custom pill */}
+            <input
+              type="checkbox"
+              className="peer sr-only"
+              {...register("pinned")}
+            />
+            {}
             <div className="h-5 w-9 rounded-full bg-line transition peer-checked:bg-brand-500" />
             <div className="absolute left-0.5 top-0.5 h-4 w-4 rounded-full bg-surface shadow transition peer-checked:translate-x-4" />
           </div>
           <div>
             <p className="text-sm font-medium text-ink">Pin this note</p>
-            <p className="text-xs text-ink-soft">Pinned notes appear at the top of the list.</p>
+            <p className="text-xs text-ink-soft">
+              Pinned notes appear at the top of the list.
+            </p>
           </div>
         </label>
 
-        {/* Actions */}
+        {}
         <div className="flex gap-3 pt-1">
-          <Button type="button" variant="outline" className="flex-1" onClick={onClose}>
+          <Button
+            type="button"
+            variant="outline"
+            className="flex-1"
+            onClick={onClose}
+          >
             Cancel
           </Button>
           <Button type="submit" className="flex-1" loading={isSubmitting}>
@@ -259,8 +283,8 @@ function NoteFormDialog({ open, onClose, note, leads, onSaved }) {
 // ── Page ───────────────────────────────────────────────────────────────────────
 export default function Notes() {
   // ── Data ─────────────────────────────────────────────────────────────────
-  const [notes, setNotes] = useState(null);  // null = loading
-  const [leads, setLeads] = useState([]);    // lead picker options
+  const [notes, setNotes] = useState(null); // null = loading
+  const [leads, setLeads] = useState([]); // lead picker options
 
   // ── UI state ──────────────────────────────────────────────────────────────
   const [search, setSearch] = useState("");
@@ -273,12 +297,18 @@ export default function Notes() {
   // ── Fetch ─────────────────────────────────────────────────────────────────
   const load = () => {
     setNotes(null);
-    notesApi.list().then((res) => setNotes(res.notes)).catch(() => setNotes([]));
+    notesApi
+      .list()
+      .then((res) => setNotes(res.notes))
+      .catch(() => setNotes([]));
   };
 
   useEffect(() => {
     load();
-    leadsApi.list().then((res) => setLeads(res.leads ?? [])).catch(() => {});
+    leadsApi
+      .list()
+      .then((res) => setLeads(res.leads ?? []))
+      .catch(() => {});
   }, []);
 
   // ── KPI counts (stable — independent of active filter) ───────────────────
@@ -293,12 +323,15 @@ export default function Notes() {
   }, [notes]);
 
   // ── Quick-filter chip counts ──────────────────────────────────────────────
-  const chipCounts = useMemo(() => ({
-    all: kpis.total,
-    pinned: kpis.pinned,
-    linked: kpis.linked,
-    unlinked: kpis.unlinked,
-  }), [kpis]);
+  const chipCounts = useMemo(
+    () => ({
+      all: kpis.total,
+      pinned: kpis.pinned,
+      linked: kpis.linked,
+      unlinked: kpis.unlinked,
+    }),
+    [kpis],
+  );
 
   // ── Client-side filtering (search + quick-filter chip) ───────────────────
   const filtered = useMemo(() => {
@@ -307,8 +340,10 @@ export default function Notes() {
 
     // Quick-filter chip
     if (filter === "pinned") list = list.filter((n) => n.pinned);
-    else if (filter === "linked") list = list.filter((n) => n.lead || n.contact);
-    else if (filter === "unlinked") list = list.filter((n) => !n.lead && !n.contact);
+    else if (filter === "linked")
+      list = list.filter((n) => n.lead || n.contact);
+    else if (filter === "unlinked")
+      list = list.filter((n) => !n.lead && !n.contact);
 
     // Content search
     if (search.trim()) {
@@ -322,9 +357,18 @@ export default function Notes() {
   const isActive = search.trim() || filter !== "all";
 
   // ── Handlers ──────────────────────────────────────────────────────────────
-  const openNew = () => { setEditing(null); setFormOpen(true); };
-  const openEdit = (note) => { setEditing(note); setFormOpen(true); };
-  const handleSaved = () => { setFormOpen(false); load(); };
+  const openNew = () => {
+    setEditing(null);
+    setFormOpen(true);
+  };
+  const openEdit = (note) => {
+    setEditing(note);
+    setFormOpen(true);
+  };
+  const handleSaved = () => {
+    setFormOpen(false);
+    load();
+  };
 
   const handleTogglePin = async (note) => {
     try {
@@ -350,19 +394,25 @@ export default function Notes() {
     }
   };
 
-  const clearAll = () => { setSearch(""); setFilter("all"); };
+  const clearAll = () => {
+    setSearch("");
+    setFilter("all");
+  };
 
   // ── Render ────────────────────────────────────────────────────────────────
   return (
     <div className="space-y-6">
-      {/* Page header */}
-      <PageHeader title="Notes" subtitle="Capture context across your deals and contacts.">
+      {}
+      <PageHeader
+        title="Notes"
+        subtitle="Capture context across your deals and contacts."
+      >
         <Button onClick={openNew}>
           <Plus className="h-4 w-4" /> New note
         </Button>
       </PageHeader>
 
-      {/* KPI strip */}
+      {}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatTile
           icon={StickyNote}
@@ -390,9 +440,9 @@ export default function Notes() {
         />
       </div>
 
-      {/* Toolbar */}
+      {}
       <Card className="space-y-4 p-4">
-        {/* Search row */}
+        {}
         <div className="relative">
           <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-soft" />
           <input
@@ -403,7 +453,7 @@ export default function Notes() {
           />
         </div>
 
-        {/* Quick-filter chips + result count */}
+        {}
         <div className="flex flex-wrap items-center gap-2">
           <FilterChip
             label="All"
@@ -440,14 +490,14 @@ export default function Notes() {
               </button>
             )}
             <span className="text-sm text-ink-soft">
-              <span className="font-semibold text-ink">{filtered.length}</span> of{" "}
-              {notes?.length ?? 0}
+              <span className="font-semibold text-ink">{filtered.length}</span>{" "}
+              of {notes?.length ?? 0}
             </span>
           </div>
         </div>
       </Card>
 
-      {/* Masonry grid / loading / empty */}
+      {}
       {notes === null ? (
         <div className="flex justify-center py-16">
           <Spinner />
@@ -470,7 +520,6 @@ export default function Notes() {
           }
         />
       ) : (
-        /* Masonry via CSS columns */
         <div className="columns-1 sm:columns-2 xl:columns-3 gap-4 *:mb-4">
           {filtered.map((note) => (
             <NoteCard
@@ -484,7 +533,7 @@ export default function Notes() {
         </div>
       )}
 
-      {/* New / Edit dialog */}
+      {}
       <NoteFormDialog
         open={formOpen}
         onClose={() => setFormOpen(false)}
@@ -493,7 +542,7 @@ export default function Notes() {
         onSaved={handleSaved}
       />
 
-      {/* Delete confirmation */}
+      {}
       <ConfirmDialog
         open={Boolean(toDelete)}
         onClose={() => setToDelete(null)}

@@ -46,7 +46,6 @@ import { STAGE_STYLES, PRIORITY_STYLES } from "../lib/constants";
 import { useAuth } from "../context/AuthContext";
 import { cn } from "../lib/utils";
 
-/* Donut palette — sky-blue family used for the "Leads by Source" chart. */
 const SOURCE_COLORS = [
   "#0ea5e9",
   "#38bdf8",
@@ -94,7 +93,7 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6">
-      {/* Title row */}
+      {}
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <h1 className="font-display text-3xl font-extrabold tracking-tight text-ink sm:text-[2.5rem]">
           Welcome Back,{" "}
@@ -117,7 +116,7 @@ export default function Dashboard() {
       {/* Balanced 3-column composition — cards distributed so the columns end
           at roughly the same height, leaving no large vertical gaps. */}
       <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-12">
-        {/* ── Left column ───────────────────────────────── */}
+        {}
         <div className="space-y-5 lg:col-span-3">
           <HeroCard value={stats.pipelineValue} />
 
@@ -133,7 +132,7 @@ export default function Dashboard() {
             </div>
           </Card>
 
-          {/* Conversion stat */}
+          {}
           <Card className="p-6">
             <SectionHeading
               icon={Target}
@@ -158,7 +157,7 @@ export default function Dashboard() {
           <TopContactsCard contacts={contacts} />
         </div>
 
-        {/* ── Center column ─────────────────────────────── */}
+        {}
         <div className="space-y-5 lg:col-span-6">
           <Card className="p-6">
             <SectionHeading
@@ -195,9 +194,9 @@ export default function Dashboard() {
           <PipelineByStage pipeline={data?.pipeline || []} />
         </div>
 
-        {/* ── Right column ──────────────────────────────── */}
+        {}
         <div className="space-y-5 lg:col-span-3">
-          {/* Revenue / balance card */}
+          {}
           <Card className="p-6">
             <SectionHeading
               title="Revenue Goal"
@@ -234,7 +233,6 @@ export default function Dashboard() {
   );
 }
 
-/* ── Pipeline by stage (funnel-style breakdown) ─────────────────────── */
 function PipelineByStage({ pipeline, className }) {
   const maxValue = Math.max(...pipeline.map((s) => s.value), 1);
   const totalValue = pipeline.reduce((sum, s) => sum + s.value, 0);
@@ -290,7 +288,6 @@ function PipelineByStage({ pipeline, className }) {
   );
 }
 
-/* ── Leads by source (donut chart) ──────────────────────────────────── */
 function LeadsBySource({ leads }) {
   // Group leads by their source field.
   const grouped = leads.reduce((acc, l) => {
@@ -367,7 +364,6 @@ function LeadsBySource({ leads }) {
   );
 }
 
-/* ── Upcoming follow-ups (next due tasks) ───────────────────────────── */
 function UpcomingTasks({ tasks }) {
   const upcoming = tasks
     .filter((t) => t.status !== "Completed")
@@ -436,7 +432,6 @@ function UpcomingTasks({ tasks }) {
   );
 }
 
-/* ── Top open deals (highest-value active leads) ────────────────────── */
 function TopDeals({ leads }) {
   const deals = [...leads]
     .filter((l) => l.status !== "Won" && l.status !== "Lost")
@@ -495,7 +490,6 @@ function TopDeals({ leads }) {
   );
 }
 
-/* ── Engagement bar chart with a highlighted peak + floating bubble ──── */
 function EngagementChart({ trend }) {
   const counts = trend.map((t) => t.leads);
   const max = Math.max(...counts, 1);
@@ -622,7 +616,6 @@ function ChartTooltip({ active, payload, label, prefix = "", unit = "" }) {
   );
 }
 
-/* ── Recent activity table (Payment History style) ──────────────────── */
 function ActivityTable({ leads }) {
   if (!leads.length)
     return (
@@ -688,7 +681,6 @@ function ActivityTable({ leads }) {
   );
 }
 
-/* ── Top contacts (avatar stack — the "Mandatory Payments" slot) ─────── */
 function TopContactsCard({ contacts }) {
   const top = contacts.slice(0, 4);
   const overflow = Math.max(contacts.length - top.length, 0);

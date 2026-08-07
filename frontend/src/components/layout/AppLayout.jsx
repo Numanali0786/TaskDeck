@@ -16,12 +16,12 @@ export function AppLayout() {
 
   return (
     <div className="flex h-screen overflow-hidden bg-canvas">
-      {/* Desktop icon rail */}
+      {}
       <div className="hidden shrink-0 pl-3 lg:flex">
         <IconRail />
       </div>
 
-      {/* Mobile sidebar drawer */}
+      {}
       {mobileOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div
@@ -34,7 +34,7 @@ export function AppLayout() {
         </div>
       )}
 
-      {/* Main column */}
+      {}
       <div className="flex flex-1 flex-col overflow-hidden">
         <div className="px-4 pt-4 md:px-6 md:pt-5">
           <TopNav onMenuClick={() => setMobileOpen(true)} />

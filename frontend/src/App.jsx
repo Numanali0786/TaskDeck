@@ -12,16 +12,14 @@ import Notes from "./pages/Notes";
 import Tasks from "./pages/Tasks";
 import Settings from "./pages/Settings";
 
-/* Central route table. Auth routes are public; everything else is wrapped in
-   the authenticated AppLayout behind <ProtectedRoute>. */
 export default function App() {
   return (
     <Routes>
-      {/* Public */}
+      {}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
-      {/* Private */}
+      {}
       <Route
         element={
           <ProtectedRoute>
@@ -38,7 +36,7 @@ export default function App() {
         <Route path="/settings" element={<Settings />} />
       </Route>
 
-      {/* Fallback */}
+      {}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

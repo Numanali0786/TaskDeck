@@ -1,7 +1,6 @@
 import { AlertTriangle } from "lucide-react";
 import { Dialog, Button } from "../ui";
 
-/** Reusable confirmation modal for destructive actions. */
 export function ConfirmDialog({
   open,
   onClose,

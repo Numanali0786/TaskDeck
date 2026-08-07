@@ -1,5 +1,13 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { Search, Bell, Menu, ChevronDown, User, LogOut, Sparkles } from "lucide-react";
+import {
+  Search,
+  Bell,
+  Menu,
+  ChevronDown,
+  User,
+  LogOut,
+  Sparkles,
+} from "lucide-react";
 import {
   Avatar,
   IconButton,
@@ -27,7 +35,7 @@ export function TopNav({ onMenuClick }) {
 
   return (
     <header className="flex items-center gap-3">
-      {/* Brand */}
+      {}
       <div className="flex items-center gap-2.5 pr-2">
         <div className="brand-gradient flex h-9 w-9 items-center justify-center rounded-xl text-white">
           <Sparkles className="h-5 w-5" />
@@ -37,7 +45,7 @@ export function TopNav({ onMenuClick }) {
         </span>
       </div>
 
-      {/* Mobile menu toggle */}
+      {}
       <button
         onClick={onMenuClick}
         className="rounded-xl p-2 text-ink-soft hover:bg-surface-muted lg:hidden"
@@ -46,7 +54,7 @@ export function TopNav({ onMenuClick }) {
         <Menu className="h-5 w-5" />
       </button>
 
-      {/* Centered nav pill */}
+      {}
       <nav className="mx-auto hidden items-center gap-1 rounded-full bg-surface p-1.5 shadow-[var(--shadow-soft)] lg:flex">
         {LINKS.map(({ to, label, end }) => (
           <NavLink
@@ -58,7 +66,7 @@ export function TopNav({ onMenuClick }) {
                 "rounded-full px-5 py-2 text-sm font-medium transition",
                 isActive
                   ? "bg-surface-muted text-ink shadow-sm"
-                  : "text-ink-soft hover:text-ink"
+                  : "text-ink-soft hover:text-ink",
               )
             }
           >
@@ -67,7 +75,7 @@ export function TopNav({ onMenuClick }) {
         ))}
       </nav>
 
-      {/* Right cluster */}
+      {}
       <div className="ml-auto flex items-center gap-2">
         <IconButton aria-label="Search" className="hidden sm:inline-flex">
           <Search className="h-[18px] w-[18px]" />

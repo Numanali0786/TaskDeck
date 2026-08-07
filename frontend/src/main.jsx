@@ -11,7 +11,7 @@ createRoot(document.getElementById("root")).render(
     <BrowserRouter>
       <AuthProvider>
         <App />
-        {/* Global toast notifications */}
+        {}
         <Toaster
           position="top-right"
           richColors
@@ -19,5 +19,5 @@ createRoot(document.getElementById("root")).render(
         />
       </AuthProvider>
     </BrowserRouter>
-  </StrictMode>
+  </StrictMode>,
 );
