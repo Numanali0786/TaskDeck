@@ -29,3 +29,16 @@ export const aiStatus = asyncHandler(async (req, res) => {
     // model: process.env.GEMINI_MODEL || "gemini-2.5-flash",
   });
 });
+export const leadSummary = asyncHandler(async (req, res) => {
+  const lead = await resolveLead(req);
+  const result = await generateLeadSummary(lead);
+
+  if (req.body.leadId) {
+    await Lead.updateOne(
+      { _id: req.body.leadId, owner: req.user._id },
+      { $set: { aiSummary: result.summary, aiRiskScore: result.riskScore } },
+    );
+  }
+
+  res.json({ success: true, ...result });
+});
