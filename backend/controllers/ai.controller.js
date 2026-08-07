@@ -57,9 +57,13 @@ export const generateEmailDraft = asyncHandler(async (req, res) => {
   res.json({ success: true, ...result });
 });
 
-/////////////////////////////////////////
 export const salesInsights = asyncHandler(async (req, res) => {
   let stats = req.body.stats;
+
+  if (!stats) {
+    const leads = await Lead.find({ owner: req.user._id });
+    stats = buildPipelineStats(leads);
+  }
 
   const result = await generateSalesInsights(stats);
   res.json({ success: true, ...result });
