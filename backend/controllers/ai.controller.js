@@ -42,3 +42,17 @@ export const leadSummary = asyncHandler(async (req, res) => {
 
   res.json({ success: true, ...result });
 });
+
+export const generateEmailDraft = asyncHandler(async (req, res) => {
+  const lead = await resolveLead(req);
+  const { purpose, tone } = req.body;
+
+  const result = await generateEmail({
+    lead,
+    purpose,
+    tone,
+    sender: { name: req.user.name, company: req.user.company },
+  });
+
+  res.json({ success: true, ...result });
+});
