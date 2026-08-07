@@ -56,3 +56,11 @@ export const generateEmailDraft = asyncHandler(async (req, res) => {
 
   res.json({ success: true, ...result });
 });
+
+/////////////////////////////////////////
+export const salesInsights = asyncHandler(async (req, res) => {
+  let stats = req.body.stats;
+
+  const result = await generateSalesInsights(stats);
+  res.json({ success: true, ...result });
+});
