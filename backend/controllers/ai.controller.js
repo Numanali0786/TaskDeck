@@ -68,3 +68,8 @@ export const salesInsights = asyncHandler(async (req, res) => {
   const result = await generateSalesInsights(stats);
   res.json({ success: true, ...result });
 });
+
+const buildPipelineStats = (leads) => {
+  const byStage = {};
+  let totalValue = 0;
+};
